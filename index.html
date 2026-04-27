@@ -3,170 +3,152 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bank Customer Churn Analysis</title>
+<title>Bank Customer Churn Dashboard</title>
 
 <style>
 body {
-    font-family: Arial, sans-serif;
     margin: 0;
-    background: #f4f6f9;
-}
-
-header {
-    background: #1f3c88;
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    font-family: 'Segoe UI', sans-serif;
     color: white;
     text-align: center;
+}
+
+/* HEADER */
+.header {
     padding: 20px;
 }
 
-section {
-    padding: 30px;
-    max-width: 1100px;
+.header img {
+    width: 40px;
+    vertical-align: middle;
+}
+
+.header h1 {
+    display: inline;
+    margin-left: 10px;
+    font-size: 26px;
+}
+
+/* DESCRIPTION */
+.desc {
+    font-size: 15px;
+    color: #ddd;
+    margin-bottom: 20px;
+}
+
+/* SLIDER */
+.slider {
+    position: relative;
+    width: 85%;
+    max-width: 900px;
     margin: auto;
+    backdrop-filter: blur(10px);
 }
 
-h2 {
-    color: #1f3c88;
-}
-
-/* KPI Cards */
-.cards {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-}
-
-.card {
-    background: white;
-    padding: 20px;
-    flex: 1;
-    min-width: 200px;
-    text-align: center;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-}
-
-.card span {
-    font-size: 22px;
-    font-weight: bold;
-}
-
-/* Image Grid */
-.img-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 15px;
-}
-
-.img-grid img {
+/* IMAGE STYLE */
+.slider img {
     width: 100%;
-    border-radius: 10px;
+    border-radius: 15px;
+    display: none;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    transition: 0.5s;
+}
+
+.active {
+    display: block;
+    animation: fade 0.6s ease-in-out;
+}
+
+/* FADE ANIMATION */
+@keyframes fade {
+    from { opacity: 0; transform: scale(0.98); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* ARROWS */
+.arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 40px;
     cursor: pointer;
+    padding: 10px;
+    color: white;
     transition: 0.3s;
 }
 
-.img-grid img:hover {
-    transform: scale(1.05);
+.left { left: -50px; }
+.right { right: -50px; }
+
+.arrow:hover {
+    color: #f2c811;
+    transform: translateY(-50%) scale(1.2);
 }
 
-/* Dark Mode */
-.dark {
-    background: #121212;
-    color: white;
-}
-
-.dark header {
-    background: black;
-}
-
-.dark .card {
-    background: #1e1e1e;
-    color: white;
-}
-
-footer {
-    background: #1f3c88;
-    color: white;
-    text-align: center;
-    padding: 15px;
+/* FOOTER */
+.footer {
+    margin-top: 20px;
+    font-size: 14px;
+    color: #bbb;
 }
 </style>
-
 </head>
+
 <body>
 
-<header>
-    <h1>🏦 Bank Customer Churn Analysis</h1>
-    <p>Power BI Dashboard Presentation</p>
-    <button onclick="toggleDarkMode()">🌙</button>
-</header>
-
-<section>
-    <h2>📊 Key Metrics</h2>
-    <div class="cards">
-        <div class="card"><p>Total Customers</p><span class="counter" data-target="10000">0</span></div>
-        <div class="card"><p>Churn Rate (%)</p><span class="counter" data-target="20">0</span></div>
-        <div class="card"><p>Avg Balance</p><span class="counter" data-target="75000">0</span></div>
-        <div class="card"><p>Credit Score</p><span class="counter" data-target="650">0</span></div>
-    </div>
-</section>
-
-<section>
-    <h2>📊 Dashboard Visuals</h2>
-
-    <div class="img-grid">
-        <img src="images/churn-overview.png" class="img churn" onclick="openModal(this)">
-        <img src="images/churn-by-age.png" class="img churn" onclick="openModal(this)">
-        <img src="images/churn-by-geo.png" class="img churn" onclick="openModal(this)">
-        <img src="images/credit-score.png" class="img churn" onclick="openModal(this)">
-        <img src="images/balance.png" class="img churn" onclick="openModal(this)">
-        <img src="images/gender-distribution.png" class="img customer" onclick="openModal(this)">
-    </div>
-</section>
-
-<section>
-    <h2>🔍 Key Insights</h2>
-    <ul>
-        <li>Higher churn in age group 51–60</li>
-        <li>Inactive members churn more</li>
-        <li>Low credit score = high churn risk</li>
-        <li>Geography impacts churn significantly</li>
-    </ul>
-</section>
-
-<!-- Modal -->
-<div id="modal" class="modal" onclick="closeModal()">
-    <img id="modal-img">
+<!-- HEADER -->
+<div class="header">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/c/cf/New_Power_BI_Logo.svg">
+    <h1>Bank Customer Churn Dashboard</h1>
 </div>
 
-<footer>
-    <p>Created by Nikhil Palye</p>
-</footer>
+<!-- DESCRIPTION -->
+<div class="desc">
+    Interactive Power BI dashboard showcasing churn insights, customer behavior, and risk patterns.
+</div>
+
+<!-- SLIDER -->
+<div class="slider">
+
+    <div class="arrow left" onclick="prevSlide()">❮</div>
+
+    <!-- ✅ FIXED PATH (use direct or same folder images) -->
+    <img src="https://github.com/Nikhil-Palye/Bank-Customer-Churn/blob/main/PBI_img1.png" class="active">
+    <img src="https://github.com/Nikhil-Palye/Bank-Customer-Churn/blob/main/PBI_img2.png">
+
+    <div class="arrow right" onclick="nextSlide()">❯</div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+    Created by Nikhil Palye
+</div>
 
 <script>
-// Counter Animation
-const counters = document.querySelectorAll('.counter');
+let index = 0;
+const slides = document.querySelectorAll(".slider img");
 
-counters.forEach(counter => {
-    let update = () => {
-        let target = +counter.getAttribute('data-target');
-        let count = +counter.innerText;
-        let increment = target / 100;
-
-        if (count < target) {
-            counter.innerText = Math.ceil(count + increment);
-            setTimeout(update, 20);
-        } else {
-            counter.innerText = target;
-        }
-    };
-    update();
-});
-
-// Dark Mode
-function toggleDarkMode() {
-    document.body.classList.toggle("dark");
+function showSlide(i) {
+    slides.forEach(img => img.classList.remove("active"));
+    slides[i].classList.add("active");
 }
+
+function nextSlide() {
+    index = (index + 1) % slides.length;
+    showSlide(index);
+}
+
+function prevSlide() {
+    index = (index - 1 + slides.length) % slides.length;
+    showSlide(index);
+}
+
+// Click to open full image
+slides.forEach(img => {
+    img.onclick = () => window.open(img.src, "_blank");
+});
 </script>
 
 </body>
